@@ -36,4 +36,11 @@ let UserSchema = new mongoose.Schema({
             "Cybersecurity Expert"
         ]  // Predefined options
     }
+},
+{
+ timestamps: true   
 })
+
+let userModel = mongoose.model("users", UserSchema, "Users")
+
+export default userModel
