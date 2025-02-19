@@ -1,5 +1,6 @@
 import express from "express"
 import config from "config"
+import "./utils/dbConnect.js"
 
 const app = express();
 const PORT = config.get("PORT") || 5044;
