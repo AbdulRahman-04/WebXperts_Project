@@ -7,11 +7,22 @@ import freelancerRouter from "./controllers/Freelancers/index.js"
 // public apis import
 import userpublicRouter from "./public/users.js"
 import freelancerpublicRouter from "./public/freelancers.js"
-
+// ratelimit
+import ratelimit from "express-rate-limit"
+import authMiddleware from "./middleware/auth.js"
 const app = express();
 const PORT = config.get("PORT") || 5044;
 
 app.use(express.json())
+
+let limiter = ratelimit({
+    windowMs: 5*60*100,
+    limit: 50,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: "cannot send request! wait for server to respond",
+    statusCode: 429
+})
 
 app.get("/", (req, res)=>{
     try {
@@ -28,6 +39,11 @@ app.get("/", (req, res)=>{
 app.use("/api/pubilc", userpublicRouter)
 app.use("/api/public", freelancerpublicRouter)
 
+// rate limit
+app.use("/api/public", limiter)
+
+// jwt auth middleware
+app.use(authMiddleware)
 
 // private api's
 app.use("/api/users", userRouter)
