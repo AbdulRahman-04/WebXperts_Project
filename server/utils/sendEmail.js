@@ -1,9 +1,8 @@
 import nodemailer from "nodemailer"
 import config from "config"
 
-const USER = config.get("APP");
-const PASS = config.get("PASS");
-
+const user = config.get("APP");
+const pass = config.get("PASS");
 
 async function sendEmail(emailData) {
 
@@ -13,9 +12,9 @@ async function sendEmail(emailData) {
             host: "smtp.gmail.com",
             port: 5043,
             secure: true,
-            auth: {
-              user: USER,
-              pass: PASS
+            auth:{
+                user: user,
+                pass: pass
             }
         });
 
@@ -28,9 +27,6 @@ async function sendEmail(emailData) {
         
     } catch (error) {
         console.log(error);
-        
     }
     
 }
-
-export default sendEmail
