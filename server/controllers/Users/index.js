@@ -2,7 +2,7 @@ import express from "express"
 
 const router = express.Router();
 
-router.get("/getallfreelancers", (req, res)=> {
+router.get("/getallusers", (req, res)=> {
     try {
 
         res.status(200).json({msg: `all users are here`})
@@ -12,7 +12,7 @@ router.get("/getallfreelancers", (req, res)=> {
     }
 })
 
-router.get("/getonefreelancer/:id", (req, res)=>{
+router.get("/getoneuser", (req, res)=>{
     try {
         res.status(200).json({msg: `one user is here!`})
     } catch (error) {
@@ -20,7 +20,7 @@ router.get("/getonefreelancer/:id", (req, res)=>{
     }
 })
 
-router.put("/editonefreelancers/:id", (req, res)=>{
+router.put("/editoneuser", (req, res)=>{
     try {
         res.status(200).json({msg: `one user is edited⚡`})
         
@@ -29,7 +29,7 @@ router.put("/editonefreelancers/:id", (req, res)=>{
     }
 })
 
-router.delete("/deleteoneuser/:id", (req, res)=>{
+router.delete("/deleteoneuser", (req, res)=>{
     try {
         res.status(200).json({mgs: `one user is edited`})
     } catch (error) {

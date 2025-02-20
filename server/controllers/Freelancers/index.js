@@ -12,7 +12,7 @@ router.get("/getallfreelancers", (req, res)=> {
     }
 })
 
-router.get("/getonefreelancer/:id", (req, res)=>{
+router.get("/getonefreelancer", (req, res)=>{
     try {
         res.status(200).json({msg: `one freelancer is here!`})
     } catch (error) {
@@ -20,7 +20,7 @@ router.get("/getonefreelancer/:id", (req, res)=>{
     }
 })
 
-router.put("/editonefreelancers/:id", (req, res)=>{
+router.put("/editonefreelancer", (req, res)=>{
     try {
         res.status(200).json({msg: `one freelancer is edited⚡`})
         
@@ -29,7 +29,7 @@ router.put("/editonefreelancers/:id", (req, res)=>{
     }
 })
 
-router.delete("/deleteoneuser/:id", (req, res)=>{
+router.delete("/deleteonefreelancer", (req, res)=>{
     try {
         res.status(200).json({mgs: `one freelancer is edited`})
     } catch (error) {
