@@ -1,7 +1,7 @@
 import express from "express"
 import config from "config"
 import "./utils/dbConnect.js"
-// controllers routers
+// private api's
 import userRouter from "./controllers/Users/index.js"
 import freelancerRouter from "./controllers/Freelancers/index.js"
 // public apis import
@@ -26,7 +26,7 @@ app.get("/", (req, res)=>{
 
 // public api's
 app.use("/api/pubilc", userpublicRouter)
-app.use("/api/public", freelancerRouter)
+app.use("/api/public", freelancerpublicRouter)
 
 
 // private api's

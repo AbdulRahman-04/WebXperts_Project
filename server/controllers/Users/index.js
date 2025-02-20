@@ -1,45 +1,54 @@
 import express from "express"
+import userModel from "../../models/Users/Users";
 
 const router = express.Router();
 
-router.get("/getallusers", (req, res)=> {
+router.get("/getallusers",async  (req, res)=> {
     try {
-
-        res.status(200).json({msg: `all users are here`})
+       let getAll = await userModel.find({})
+        res.status(200).json({msg: getAll})
         
     } catch (error) {
         res.status(401).json({msg: error})
     }
 })
 
-router.get("/getoneuser", (req, res)=>{
+router.get("/getoneuser/:id", async (req, res)=>{
     try {
-        res.status(200).json({msg: `one user is here!`})
+        let paramsId = req.params.id
+        let getOne = await userModel.findOne({_id: paramsId});
+        res.status(200).json({msg: getOne})
     } catch (error) {
         res.status(401).json({msg: error})
     }
 })
 
-router.put("/editoneuser", (req, res)=>{
+router.put("/editoneuser/:id", async (req, res)=>{
     try {
-        res.status(200).json({msg: `one user is edited⚡`})
+        let paramsId = req.params.id;
+        let userInp = req.body;
+        await userModel.updateOne({_id: paramsId}, {$set: userInp});
+        res.status(200).json({msg: `user updated Successfully!`})
         
     } catch (error) {
         res.status(401)
     }
 })
 
-router.delete("/deleteoneuser", (req, res)=>{
+router.delete("/deleteoneuser/:id", async (req, res)=>{
     try {
-        res.status(200).json({mgs: `one user is edited`})
+        let paramsId = req.params.id;
+        await userModel.deleteOne({_id: paramsId})
+        res.status(200).json({mgs: `user edited successfully!✅`})
     } catch (error) {
         res.status(401).json({msg: error})
     }
 })
 
-router.delete("/deleteall", (req, res)=>{
+router.delete("/deleteall", async (req, res)=>{
     try {
-        res.status(200).json({msg: `all users are deleted`})
+        await userModel.deleteMany({})
+        res.status(200).json({msg: `all users deleted✅`})
     } catch (error) {
         res.status(401).json({msg: error})
     }
