@@ -41,6 +41,24 @@ let FreelancerScehma = new mongoose.Schema(
       type: String,
       require: true,
     },
+    freelancerVerified: {
+      email: {
+        type: String,
+        default: false
+      },
+      phone: {
+        type: String,
+        default: false
+      }
+    },
+    freelancerVerifyToken: {
+      email: {
+        type: String
+      },
+      phone: {
+        type: String
+      }
+    }
   },
   {
     timestamps: true,

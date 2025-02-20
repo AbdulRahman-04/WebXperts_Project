@@ -30,3 +30,5 @@ async function sendEmail(emailData) {
     }
     
 }
+
+export default sendEmail

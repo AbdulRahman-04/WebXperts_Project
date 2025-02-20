@@ -2,9 +2,8 @@ import express from "express"
 
 const router = express.Router();
 
-router.get("/getallfreelancers", (req, res)=> {
+router.get("/getallfreelancers", async (req, res)=> {
     try {
-
         res.status(200).json({msg: `all freelancers are here`})
         
     } catch (error) {

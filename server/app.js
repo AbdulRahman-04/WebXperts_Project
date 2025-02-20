@@ -2,8 +2,11 @@ import express from "express"
 import config from "config"
 import "./utils/dbConnect.js"
 // controllers routers
-import users from "./controllers/Users/index.js"
-import freelancers from "./controllers/Freelancers/index.js"
+import userRouter from "./controllers/Users/index.js"
+import freelancerRouter from "./controllers/Freelancers/index.js"
+// public apis import
+import userpublicRouter from "./public/users.js"
+import freelancerpublicRouter from "./public/freelancers.js"
 
 const app = express();
 const PORT = config.get("PORT") || 5044;
@@ -21,9 +24,14 @@ app.get("/", (req, res)=>{
 })
 
 
+// public api's
+app.use("/api/pubilc", userpublicRouter)
+app.use("/api/public", freelancerRouter)
+
+
 // private api's
-app.use("/api/users", users)
-app.use("/api/freelancers", freelancers)
+app.use("/api/users", userRouter)
+app.use("/api/freelancers", freelancerRouter)
 
 app.listen(PORT, ()=> {
     console.log(`your web app is running live at port ${PORT}`);

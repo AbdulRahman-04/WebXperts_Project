@@ -35,6 +35,24 @@ let UserSchema = new mongoose.Schema({
             "Cloud Engineer",
             "Cybersecurity Expert"
         ]  // Predefined options
+    },
+    userVerified: {
+        email: {
+            type: String,
+            default: false
+        },
+        phone:{
+            type: String,
+            default: false
+        }
+    },
+    userVerifyToken: {
+        email: {
+            type: String
+        },
+        phone: {
+            type: String
+        }
     }
 },
 {
