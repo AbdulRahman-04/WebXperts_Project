@@ -3,9 +3,9 @@ import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 import config from "config"
 import jwt from "jsonwebtoken"
-import sendEmail from "../utils/sendEmail.js"
-import sendSMS from "../utils/sendSMS.js"
-import userModel from "../models/Users/Users.js"
+import sendEmail from "../../utils/sendEmail.js"
+import sendSMS from "../../utils/sendSMS.js"
+import userModel from "../../models/Users/Users.js"
 
 const router = express.Router()
 

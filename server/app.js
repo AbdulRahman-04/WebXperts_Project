@@ -5,8 +5,8 @@ import "./utils/dbConnect.js"
 import userRouter from "./controllers/Users/index.js"
 import freelancerRouter from "./controllers/Freelancers/index.js"
 // public apis import
-import userpublicRouter from "./public/users.js"
-import freelancerpublicRouter from "./public/freelancers.js"
+import userpublicRouter from "./controllers//public/users.js"
+import freelancerpublicRouter from "./controllers/public/freelancers.js"
 // ratelimit
 import ratelimit from "express-rate-limit"
 import authMiddleware from "./middleware/auth.js"
@@ -43,7 +43,7 @@ app.use("/api/public", freelancerpublicRouter)
 app.use(limiter)
 
 // jwt auth middleware
-app.use(authMiddleware)
+//  app.use(authMiddleware)
 
 // private api's
 app.use("/api/users", userRouter)

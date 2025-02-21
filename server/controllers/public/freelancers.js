@@ -3,9 +3,9 @@ import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 import config from "config"
 import jwt from  "jsonwebtoken"
-import sendEmail from "../utils/sendEmail.js"
-import sendSMS from "../utils/sendSMS.js"
-import FreelancerModel from "../models/Freelancers/Freelancers.js"
+import sendEmail from "../../utils/sendEmail.js"
+import sendSMS from "../../utils/sendSMS.js"
+import FreelancerModel from "../../models/Freelancers/Freelancers.js"
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ router.post("/freelancersignup", async (req, res)=>{
 
         // duplicate check
         let freelancerExist = await FreelancerModel.findOne({email});
-        if(!freelancerExist){
+        if(freelancerExist){
             return res.status(200).json({msg: 'freelancer already exists!'})
         }
         // hash the password
@@ -48,14 +48,13 @@ router.post("/freelancersignup", async (req, res)=>{
         // send link for email verification
 
         let emailData = {
-            from: "Team WebXperts",
             to: email,
             subject: "email verification",
              html: "<h1> Team WebXperts</h1>\n <p> hey lancer, please verify your email by clicking on below link </p>\n ", 
-            text: `${URL}/api/public/emailverify/${emailToken}`
+            // text: `${URL}/api/public/emailverify/${emailToken}`
         }
 
-        sendEmail(emailData);
+        await sendEmail(emailData);
 
         // send link for mobile verification
         let smsData = {
@@ -98,6 +97,7 @@ router.get("/emailverify/:token", async (req, res)=>{
 
         // save the changes
         await freeLancer.save()
+        console.log("email sent successfuly!✔")
 
         res.status(200).json({msg: `freelancer email verified✅`})
     } catch (error) {
@@ -114,7 +114,7 @@ router.get("/phoneverify/:token", async (req, res)=>{
         let token = req.params.token
 
         // check if url token === userVerifyToken.phone
-        let freelancer = await freeLancerModel.findOne({"freelancerVerifyToken.phone": token})
+        let freelancer = await FreelancerModel.findOne({"freelancerVerifyToken.phone": token})
         if(!freelancer){
             return res.status(200).json({msg: `invalid token❌`})
         }

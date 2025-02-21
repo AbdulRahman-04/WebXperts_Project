@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer"
 import config from "config"
 
-const user = config.get("APP");
+const user = config.get("USER");
 const pass = config.get("PASS");
 
 async function sendEmail(emailData) {
@@ -10,7 +10,7 @@ async function sendEmail(emailData) {
 
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
-            port: 5043,
+            port: 465,
             secure: true,
             auth:{
                 user: user,
@@ -18,12 +18,14 @@ async function sendEmail(emailData) {
             }
         });
 
-        let sender = transporter.sendMail({
-            from: emailData.from,
+        let sender = await transporter.sendMail({
+            from: user,
             to: emailData.to,
+            subject: emailData.subject,  // Add subject here
             text: emailData.text,
             html: emailData.html
-        })
+        });
+        
         
     } catch (error) {
         console.log(error);
