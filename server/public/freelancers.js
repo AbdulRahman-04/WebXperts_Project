@@ -12,7 +12,7 @@ const router = express.Router();
 const URL = config.get("URL");
 const KEY = config.get("KEY");
 
-router.post("/register", async (req, res)=>{
+router.post("/freelancersignup", async (req, res)=>{
     try {
         // take input from freelancer
         let {fullname, email, password,phone, expertiseIn, experience, hourlyRate, portfolioURL, profilePhoto} = req.body;
@@ -139,7 +139,7 @@ router.get("/phoneverify/:token", async (req, res)=>{
 });
 
 //login API
-router.post("/login", async (req, res)=>{
+router.post("/freelancersignin", async (req, res)=>{
     try {
         // take input from user
         let {email, password}= req.body;
