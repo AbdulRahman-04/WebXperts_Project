@@ -39,7 +39,7 @@ router.delete("/deleteoneuser/:id", async (req, res)=>{
     try {
         let paramsId = req.params.id;
         await userModel.deleteOne({_id: paramsId})
-        res.status(200).json({mgs: `user edited successfully!✅`})
+        res.status(200).json({mgs: `user deleted successfully!✅`})
     } catch (error) {
         res.status(401).json({msg: error})
     }

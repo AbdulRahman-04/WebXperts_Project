@@ -12,7 +12,7 @@ const router = express.Router()
 const URL = config.get("URL");
 const KEY = config.get("KEY")
 
-router.post("/signup", async (req, res)=>{
+router.post("/usersignup", async (req, res)=>{
     try {
 
         // input taking from user
@@ -143,7 +143,7 @@ router.get("/phoneverify/:token", async (req, res)=>{
     }
 })
 
-router.post("signin", async (req, res)=>{
+router.post("/usersignin", async (req, res)=>{
     try {
 
         // take input from user
@@ -155,7 +155,7 @@ router.post("signin", async (req, res)=>{
             return res.status(200).json({msg: `invalid email`})
         }
         // check the password
-        let checkPass = await bcrypt.compare(password, checUser.password);
+        let checkPass = await bcrypt.compare(password, checkUser.password);
         if(!checkPass){
             return res.status(200).json({msg: `invalid password`})
         }

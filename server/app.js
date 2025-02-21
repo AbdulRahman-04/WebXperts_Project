@@ -36,11 +36,11 @@ app.get("/", (req, res)=>{
 
 
 // public api's
-app.use("/api/pubilc", userpublicRouter)
+app.use("/api/public", userpublicRouter)
 app.use("/api/public", freelancerpublicRouter)
 
 // rate limit
-app.use("/api/public", limiter)
+app.use(limiter)
 
 // jwt auth middleware
 app.use(authMiddleware)
