@@ -178,6 +178,46 @@ router.get("/phoneverify/:token", async (req, res)=>{
         console.log(error);
         res.status(200).json({msg: error})
     }
-})
+});
+
+router.post("/resetpassword", async(req, res)=>{
+    try {
+      // take email from user 
+      let {email} = req.body;
+      if(!email){
+        return res.status(400).json({msg: `please provide an email`})
+      }
+      // check if email exists in DataBase
+      let checkEmail = await userModel.findOne({email})
+      if(!checkEmail){
+        return res.status(401).json({msg: `no email found❌`})
+      }
+  
+      // generate a new random password for user
+      let newPass = Math.random().toString(36).substring(2);
+      console.log(newPass);
+  
+      // hash the generated password 
+      let hashPass = await bcrypt.hash(newPass, 10);
+      console.log(hashPass);
+      user.password = hashPass;
+  
+      // save the user
+      await user.save();
+  
+      let emailData = {
+        to: email,
+        subject: "New Password",
+        html: `<p> your new password is <strong>${newPass}</strong></p>`
+      }
+      sendEmail(emailData)
+  
+       res.status(200).json({msg: `new password sent successfully to your email!🙌`})
+      
+    } catch (error) {
+      res.status(401).json({msg: error})
+    }
+  })
+  
 
 export default router
