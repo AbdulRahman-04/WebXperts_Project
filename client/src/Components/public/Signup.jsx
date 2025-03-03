@@ -85,7 +85,7 @@ const Signup = () => {
 
         <h5 className="text-white mt-4 text-center">
           Already have an account?{" "}
-          <a href="#" className="text-blue-600 underline">
+          <a href="/signin" className="text-blue-600 underline">
             Sign in Here!
           </a>
         </h5>

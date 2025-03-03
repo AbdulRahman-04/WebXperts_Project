@@ -2,11 +2,13 @@ import React from "react";
 import webXpertz from "../../assets/og_webxpertz.png";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   let [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState("");
+  const navigate = useNavigate()
 
   const handleSignin = async () => {
     setLoading(true);
@@ -24,6 +26,7 @@ const Signin = () => {
 
       localStorage.setItem("token", token);
       alert("Logged in successfull✅");
+      navigate("/dashboard")
     } catch (error) {
       console.log("login error", error.response?.data || "an error occured");
     } finally {
@@ -74,7 +77,7 @@ const Signin = () => {
 
         <h5 className="text-white mt-4 text-center">
           Don't have an account?{" "}
-          <a href="#" className="text-blue-500 underline">
+          <a href="/signup" className="text-blue-500 underline">
             Sign up here!
           </a>
         </h5>
