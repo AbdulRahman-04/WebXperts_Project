@@ -10,8 +10,15 @@ import freelancerpublicRouter from "./controllers/public/freelancers.js"
 // ratelimit
 import ratelimit from "express-rate-limit"
 import authMiddleware from "./middleware/auth.js"
+// cors 
+import cors from "cors"
 const app = express();
 const PORT = config.get("PORT") || 5044;
+
+
+app.use(cors({
+    origin: ["http://127.0.0.1:5173"]
+}))
 
 app.use(express.json())
 
@@ -43,7 +50,7 @@ app.use("/api/public", freelancerpublicRouter)
 app.use(limiter)
 
 // jwt auth middleware
-//  app.use(authMiddleware)
+ app.use(authMiddleware)
 
 // private api's
 app.use("/api/users", userRouter)

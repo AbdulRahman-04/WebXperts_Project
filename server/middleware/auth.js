@@ -12,12 +12,12 @@ const authMiddleware = (req, res, next) => {
     try {
 
         let decoded = jwt.verify(token, KEY);
+        req.user = decoded;
         next();
         
     } catch (error) {
         console.log(error.name);
         console.log(error.message);
-        
         
     }
     
