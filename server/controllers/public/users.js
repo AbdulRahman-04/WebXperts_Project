@@ -51,8 +51,7 @@ router.post("/usersignup", async (req, res) => {
       from: "Team WebXperts",
       to: email,
       subject: "Email Verification",
-      html: `<p>Click the link below to verify your email:</p>
-            <a href="${URL}/api/public/emailverify/${emailToken}">Verify Email</a>
+      html: `<a href="${URL}/api/public/emailverify/${emailToken}">Verify Email</a>
             <br>
             <p>If the link doesn't work, copy and paste this URL:</p>
             <p>${URL}/api/public/emailverify/${emailToken}</p>`,
