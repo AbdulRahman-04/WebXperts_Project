@@ -10,8 +10,10 @@ const Signin = () => {
   const [loading, setLoading] = useState("");
   const navigate = useNavigate()
 
-  const handleSignin = async () => {
+  const handleSignin = async (e) => {
+    e.preventDefault()
     setLoading(true);
+
     try {
       let apiUrl = "http://localhost:6060/api/public/usersignin";
       let apiOutput = await axios.post(apiUrl, { email, password });
@@ -23,7 +25,7 @@ const Signin = () => {
         alert("invalid credentials❌");
         return;
       }
-
+      localStorage.setItem("user", JSON.stringify(apiOutput.data));
       localStorage.setItem("token", token);
       alert("Logged in successfull✅");
       navigate("/dashboard")

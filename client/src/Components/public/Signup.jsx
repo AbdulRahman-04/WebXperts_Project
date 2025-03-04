@@ -10,7 +10,8 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
  
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
     setLoading(true);
     try {
       let apiUrl = "http://localhost:6060/api/public/usersignup";
