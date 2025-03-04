@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const FLdashboard = () => {
-  const [freelancer, setFreelancer] = useState(null);
+  const [freelancer, setFreelancer] = useState("");
+  console.log("Hello Suhail");
   const freelancerId = localStorage.getItem("freelancerId");
+  console.log(freelancerId);
 
   useEffect(() => {
     const fetchFreelancerData = async () => {
       try {
         let apiUrl = `http://localhost:6060/api/private/getonefreelancer/${freelancerId}`;
-        let response = await axios.get(apiUrl, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        let response = await axios.get(apiUrl);
 
-        setFreelancer(response.data); // API se data set ho raha hai
+        console.log(response.data);
+
+        setFreelancer(response.data);
       } catch (error) {
         console.log("Error fetching freelancer data:", error);
       }

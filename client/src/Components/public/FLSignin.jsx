@@ -4,8 +4,8 @@ import axios from "axios";
 import webXpertz from "../../assets/og_webxpertz.png";
 
 const FLSignin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("syedomerali2006@gmail.com");
+  const [password, setPassword] = useState("faisal0404");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -29,14 +29,14 @@ const FLSignin = () => {
       console.log("Token received:", token);
       console.log("Email from API:", apiOutput.data.email);
   
-      localStorage.setItem("freelancer", JSON.stringify(apiOutput.data.email || ""));
+      localStorage.setItem("freelancer", JSON.stringify(apiOutput.data.email ));
       localStorage.setItem("token", token);
   
       alert("Logged in successfully ✅");
-  
-      setTimeout(() => {
-        navigate("/fldashboard");
-      }, 500);
+      console.log('hello 1');
+      navigate("/fldashboard");
+      console.log('hello2');
+      
     } catch (error) {
       console.log("Login error:", error.message, error.response?.data);
       alert("Login failed, please try again ❌");

@@ -21,7 +21,7 @@ const App = () => {
           <Route path="/flsignin" element={<FLSignin />}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/fldashboard" element={<FLdashboard />}/>
-          <Route path="/*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>
