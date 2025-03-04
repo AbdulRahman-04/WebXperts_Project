@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NotFound from "./Components/public/NotFound";
 import Home from "./Components/public/Home";
 import Dashboard from "./Components/private/Dashboard";
+import FLSignup from "./Components/public/FLSignup";
+import FLSignin  from "./Components/public/FLSignin";
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/flsignup" element={<FLSignup />}/>
+          <Route path="/flsignin" element={<FLSignin />}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>

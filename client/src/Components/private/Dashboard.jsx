@@ -5,7 +5,7 @@ import { FaSearch } from "react-icons/fa";
 
 const Dashboard = () => {
   const [search, setSearch] = useState("");
-  const [filteredFreelancers, setFilteredFreelancers] = useState(freelancers);
+  const [filteredFreelancers, setFilteredFreelancers] = useState("");
 
   useEffect(() => {
     gsap.from(".freelancer-card", {

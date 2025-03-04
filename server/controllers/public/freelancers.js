@@ -34,7 +34,7 @@ router.post("/freelancersignup", async (req, res)=>{
             fullname,
             email,
             password: hashPass,
-            phone,
+            // phone,
             expertiseIn,
             experience,
             hourlyRate,
@@ -49,7 +49,11 @@ router.post("/freelancersignup", async (req, res)=>{
         let emailData = {
             to: email,
             subject: "email verification",
-             html: "<h1> Team WebXperts</h1>\n <p> hey lancer, please verify your email by clicking on below link </p>\n ", 
+             html: `<p>Click the link below to verify your email:</p>
+            <a href="${URL}/api/public/emailverify/${emailToken}">Verify Email</a>
+            <br>
+            <p>If the link doesn't work, copy and paste this URL:</p>
+            <p>${URL}/api/public/emailverify/${emailToken}</p>`
             // text: `${URL}/api/public/emailverify/${emailToken}`
         }
 
@@ -144,13 +148,13 @@ router.post("/freelancersignin", async (req, res)=>{
         let {email, password}= req.body;
 
         // check if email exists in db
-        let checkfreelancer = await freeLancerModel.findOne({email});
+        let checkfreelancer = await FreelancerModel.findOne({email});
         if(!checkfreelancer){
             return res.status(200).json({msg: `invalid email!❌`});
         }
 
         // check password
-        let checkPass = await bcrypt.compare(password, checkUser.password)
+        let checkPass = await bcrypt.compare(password, checkfreelancer.password)
         if(!checkPass){
             return res.status(200).json({msg: `invalid password❌`})
         }
