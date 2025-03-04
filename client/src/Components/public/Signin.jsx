@@ -5,32 +5,42 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
-  let [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState("");
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignin = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setLoading(true);
-
+  
     try {
       let apiUrl = "http://localhost:6060/api/public/usersignin";
       let apiOutput = await axios.post(apiUrl, { email, password });
-
+  
       console.log("API RESPONSE", apiOutput.data);
-
+  
       let token = apiOutput.data.token;
       if (!token) {
-        alert("invalid credentials❌");
+        setLoading(false);
+        alert("Invalid credentials❌");
         return;
       }
-      localStorage.setItem("user", JSON.stringify(apiOutput.data));
+  
+      console.log("Token received:", token);
+      console.log("Email from API:", apiOutput.data.email);
+  
+      localStorage.setItem("user", JSON.stringify(apiOutput.data.email));
       localStorage.setItem("token", token);
-      alert("Logged in successfull✅");
-      navigate("/dashboard")
+  
+      alert("Logged in successfully ✅");
+  
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
     } catch (error) {
-      console.log("login error", error.response?.data || "an error occured");
+      console.log("Login error:", error.message, error.response?.data);
+      alert("Login failed, please try again ❌");
     } finally {
       setLoading(false);
     }

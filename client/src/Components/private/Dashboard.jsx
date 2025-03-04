@@ -16,18 +16,18 @@ const Dashboard = () => {
     });
   }, [filteredFreelancers]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setFilteredFreelancers(
-        freelancers.filter(
-          (freelancer) =>
-            freelancer.name.toLowerCase().includes(search.toLowerCase().trim()) ||
-            freelancer.specialistIn.toLowerCase().includes(search.toLowerCase().trim())
-        )
-      );
-    }, 300);
-    return () => clearTimeout(timeout);
-  }, [search]);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setFilteredFreelancers(
+  //       freelancers.filter(
+  //         (freelancer) =>
+  //           freelancer.name.toLowerCase().includes(search.toLowerCase().trim()) ||
+  //           freelancer.specialistIn.toLowerCase().includes(search.toLowerCase().trim())
+  //       )
+  //     );
+  //   }, 300);
+  //   return () => clearTimeout(timeout);
+  // }, [search]);
 
   return (
     <div className="bg-gradient-to-r from-purple-700 to-blue-700 min-h-screen text-white flex flex-col items-center justify-center p-6">

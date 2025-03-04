@@ -16,7 +16,7 @@ router.get("/getallfreelancers", async (req, res)=> {
 router.get("/getonefreelancer/:id", async (req, res)=>{
     try {
         let paramsId = req.params.id;
-        let getOne = await FreelancerModel.find({_id: paramsId})
+        let getOne = await FreelancerModel.findOne({_id: paramsId})
         res.status(200).json({msg: getOne})
     } catch (error) {
         res.status(401).json({msg: error})

@@ -147,6 +147,7 @@ router.post("/usersignin", async (req, res) => {
 
     // check if email exists in db
     let checkUser = await userModel.findOne({ email });
+  
     if (!checkUser) {
       return res.status(200).json({ msg: `invalid email` });
     }
@@ -158,7 +159,8 @@ router.post("/usersignin", async (req, res) => {
     // generate jwt token for authorization
     let token = jwt.sign({ checkUser }, KEY, { expiresIn: "90d" });
 
-    res.status(200).json({ msg: `user loggedin successfully`, token });
+    let id = checkUser._id
+    res.status(200).json({ msg: `user loggedin successfully`, token, email, id});
   } catch (error) {
     console.log(error);
     res.status(200).json({ msg: error });

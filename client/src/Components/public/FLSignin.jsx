@@ -12,28 +12,39 @@ const FLSignin = () => {
   const handleSignin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+  
     try {
       let apiUrl = "http://localhost:6060/api/public/freelancersignin";
       let apiOutput = await axios.post(apiUrl, { email, password });
+  
       console.log("API RESPONSE", apiOutput.data);
-      
+  
       let token = apiOutput.data.token;
       if (!token) {
+        setLoading(false);
         alert("Invalid credentials❌");
         return;
       }
-      
-    //   localStorage.setItem("user", JSON.stringify(apiOutput.data));
+  
+      console.log("Token received:", token);
+      console.log("Email from API:", apiOutput.data.email);
+  
+      localStorage.setItem("freelancer", JSON.stringify(apiOutput.data.email || ""));
       localStorage.setItem("token", token);
+  
       alert("Logged in successfully ✅");
-      navigate("/dashboard");
+  
+      setTimeout(() => {
+        navigate("/fldashboard");
+      }, 500);
     } catch (error) {
-      console.log("Login error:", error.response?.data || "An error occurred");
+      console.log("Login error:", error.message, error.response?.data);
+      alert("Login failed, please try again ❌");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="bg-gray-900 min-h-screen flex items-center justify-center px-4">
@@ -41,7 +52,7 @@ const FLSignin = () => {
         <img src={webXpertz} alt="WebXpertz Logo" className="w-34 h-34 mb-6" />
 
         <h3 className="text-white font-semibold text-2xl mb-4 text-center">
-          Sign in to WebXpertz
+          Sign in as Freelancer🙌
         </h3>
 
         <div className="w-full">

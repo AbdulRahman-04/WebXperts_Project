@@ -161,8 +161,8 @@ router.post("/freelancersignin", async (req, res)=>{
 
         //  generate jwt token
         let token = jwt.sign({checkfreelancer}, KEY, {expiresIn: "1d"});
-
-        res.status(200).json({msg: `freelancer loggedin successfully!`, token})
+        let id = checkfreelancer._id
+        res.status(200).json({msg: `freelancer loggedin successfully!`, token, email, id})
         
     } catch (error) {
         console.log(error);

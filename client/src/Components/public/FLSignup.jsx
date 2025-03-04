@@ -43,7 +43,7 @@ const FLSignup = () => {
     <div className="bg-gray-900 min-h-screen flex items-center justify-center px-4">
       <div className="border-3 border-blue-800 rounded-2xl p-8 w-full max-w-md flex flex-col items-center">
         <h3 className="text-white font-semibold text-2xl text-center">
-          Create an Account
+          Register and get ready to create world class products for our clients😎
         </h3>
 
         <div className="w-full mt-6">
@@ -145,7 +145,7 @@ const FLSignup = () => {
 
         <h5 className="text-white mt-4 text-center">
           Already have an account?{" "}
-          <a href="/signin" className="text-blue-600 underline">
+          <a href="/flsignin" className="text-blue-600 underline">
             Sign in Here!
           </a>
         </h5>

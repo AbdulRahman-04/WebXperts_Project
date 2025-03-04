@@ -7,6 +7,7 @@ import Home from "./Components/public/Home";
 import Dashboard from "./Components/private/Dashboard";
 import FLSignup from "./Components/public/FLSignup";
 import FLSignin  from "./Components/public/FLSignin";
+import FLdashboard from "./Components/private/FLdashboard";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/flsignup" element={<FLSignup />}/>
           <Route path="/flsignin" element={<FLSignin />}/>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/fldashboard" element={<FLdashboard />}/>
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
