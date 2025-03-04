@@ -3,46 +3,6 @@ import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { FaSearch } from "react-icons/fa";
 
-const freelancers = [
-  {
-    name: "Ismail Mohammed",
-    email: "survivorismail@gmail.com",
-    city: "Mahboob Nagar",
-    country: "India",
-    specialistIn: "Frontend Developer",
-    hourlyRate: "$15/hr",
-    portfolio: "https://survivor.dev",
-  },
-  {
-    name: "Sneha Birajdar",
-    email: "snehabirajdar72@gmail.com",
-    city: "Hyderabad",
-    country: "India",
-    specialistIn: "Full Stack Devoloper",
-    hourlyRate: "$20/hr",
-    portfolio: "https://sneha.pro",
-  },
-  {
-    name: "Syed Omer Ali",
-    email: "omer76@gmail.com",
-    city: "Hyderabad",
-    country: "India",
-    specialistIn: "Full Stack Development",
-    hourlyRate: "$6/hr",
-    portfolio: "https://omer.in",
-  },
-  {
-    name: "Fatimah",
-    email: "fatimah86@gmail.com",
-    city: "Hyderabad",
-    country: "India",
-    specialistIn: "Web Development",
-    hourlyRate: "$4/hr",
-    portfolio: "https://fatimah.dev",
-  },
-  // Add more freelancers here
-];
-
 const Dashboard = () => {
   const [search, setSearch] = useState("");
   const [filteredFreelancers, setFilteredFreelancers] = useState(freelancers);

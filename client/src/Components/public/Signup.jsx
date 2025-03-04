@@ -22,7 +22,6 @@ const Signup = () => {
      navigate("/signin")
     } catch (error) {
       console.log("Signup error:", error.response?.data || "An error occurred"); // ✅ Fixed typo
-      setMessage("Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
