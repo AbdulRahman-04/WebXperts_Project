@@ -3,37 +3,52 @@ import FreelancerModel from "../../models/Freelancers/Freelancers.js";
 
 const router = express.Router();
 
-router.get("/getallfreelancers", async (req, res)=> {
-    try {
-        let getAll = await FreelancerModel.find({})
-        res.status(200).json({msg: getAll})
-        
-    } catch (error) {
-        res.status(401).json({msg: error})
-    }
-})
+    router.get("/getallfreelancers", async (req, res)=> {
+        try {
+            let getAll = await FreelancerModel.find({})
+            res.status(200).json(getAll)
+            
+        } catch (error) {
+            res.status(401).json({msg: error})
+        }
+    })
 
-router.get("/getonefreelancer/:id", async (req, res)=>{
-    try {
-        let paramsId = req.params.id;
-        let getOne = await FreelancerModel.findOne({_id: paramsId})
-        res.status(200).json({msg: getOne})
-    } catch (error) {
-        res.status(401).json({msg: error})
-    }
-})
+    router.get("/getonefreelancer/:id", async (req, res) => {
+        try {
+            let paramsId = req.params.id;
+            let getOne = await FreelancerModel.findOne({ _id: paramsId });
 
-router.put("/editonefreelancer", async (req, res)=>{
+            if (!getOne) {
+                return res.status(404).json({ msg: "Freelancer not found" });
+            }
+
+            res.status(200).json(getOne); 
+        } catch (error) {
+            res.status(500).json({ msg: error.message });
+        }
+    });
+
+
+router.put("/editonefreelancer/:id", async (req, res) => {
     try {
         let paramsId = req.params.id;
         let userInp = req.body;
-        await FreelancerModel.updateOne({_id: paramsId}, {$set: userInp})
-        res.status(200).json({msg: `freelancer is edited⚡`})
-        
+
+        await FreelancerModel.updateOne({ _id: paramsId }, { $set: userInp });
+
+        // Fetch updated freelancer data
+        let updatedFreelancer = await FreelancerModel.findOne({ _id: paramsId });
+
+        res.status(200).json({
+            msg: "Freelancer updated successfully ⚡",
+            updatedFreelancer, // Sending updated data back
+        });
     } catch (error) {
-        res.status(401)
+        console.error("❌ Error in updating freelancer:", error);
+        res.status(500).json({ msg: "Server error" });
     }
-})
+});
+
 
 router.delete("/deleteonefreelancer/:id", async (req, res)=>{
     try {

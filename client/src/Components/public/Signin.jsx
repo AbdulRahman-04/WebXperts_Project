@@ -32,6 +32,7 @@ const Signin = () => {
   
       localStorage.setItem("user", JSON.stringify(apiOutput.data.email));
       localStorage.setItem("token", token);
+      localStorage.setItem("id", JSON.stringify(apiOutput.data.id))
   
       alert("Logged in successfully ✅");
   

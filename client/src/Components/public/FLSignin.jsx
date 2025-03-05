@@ -31,6 +31,7 @@ const FLSignin = () => {
   
       localStorage.setItem("freelancer", JSON.stringify(apiOutput.data.email ));
       localStorage.setItem("token", token);
+      localStorage.setItem("id", JSON.stringify(apiOutput.data.id))
   
       alert("Logged in successfully ✅");
       console.log('hello 1');

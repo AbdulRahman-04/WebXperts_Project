@@ -1,50 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { gsap } from "gsap";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
 
 const Dashboard = () => {
-  const [search, setSearch] = useState("");
-  const [filteredFreelancers, setFilteredFreelancers] = useState("");
+  const [data, setData] = useState([]); // State to store freelancers data
+  const [search, setSearch] = useState(""); // State to handle search input
+  const [loading, setLoading] = useState(true); // Loading state for API fetch
+  const [filteredFreelancers, setFilteredFreelancers] = useState([]); // State to store filtered freelancers
 
+  // Function to fetch all freelancers
+  async function getAllFreelancers() {
+    try {
+      let apiUrl = "http://localhost:6060/api/freelancers/getallfreelancers";
+      let res = await axios.get(apiUrl);
+      setData(res.data); // Set the fetched freelancers data
+      setFilteredFreelancers(res.data); // Initialize filtered freelancers with all data
+      setLoading(false); // Data is loaded, stop the loading state
+    } catch (error) {
+      console.log(error.response?.data || error);
+      setLoading(false); // Stop loading even if there's an error
+    }
+  }
+
+  // Filter freelancers whenever the search term changes
   useEffect(() => {
-    gsap.from(".freelancer-card", {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      stagger: 0.2,
-    });
-  }, [filteredFreelancers]);
+    const filtered = data.filter((freelancer) =>
 
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     setFilteredFreelancers(
-  //       freelancers.filter(
-  //         (freelancer) =>
-  //           freelancer.name.toLowerCase().includes(search.toLowerCase().trim()) ||
-  //           freelancer.specialistIn.toLowerCase().includes(search.toLowerCase().trim())
-  //       )
-  //     );
-  //   }, 300);
-  //   return () => clearTimeout(timeout);
-  // }, [search]);
+      freelancer.fullname.toLowerCase().includes(search.toLowerCase())
+    );
+    console.log(filtered);
+    setFilteredFreelancers(filtered);
+  }, [search, data]); // Dependency array includes data and search so it filters when either changes
+
+  // Fetch freelancers on component mount
+  useEffect(() => {
+    getAllFreelancers();
+  }, []);
 
   return (
     <div className="bg-gradient-to-r from-purple-700 to-blue-700 min-h-screen text-white flex flex-col items-center justify-center p-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white/10 backdrop-blur-lg border border-gray-300/20 rounded-3xl p-10 w-full max-w-5xl shadow-2xl flex flex-col items-center"
-      >
-        <motion.h1
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="text-5xl font-bold text-center mb-8 text-white"
-        >
+      <div className="bg-white/10 backdrop-blur-lg border border-gray-300/20 rounded-3xl p-10 w-full max-w-5xl shadow-2xl flex flex-col items-center">
+        <h1 className="text-5xl font-bold text-center mb-8 text-white">
           Find a Freelancer
-        </motion.h1>
+        </h1>
 
         <div className="flex items-center bg-gray-200/30 p-4 rounded-full mb-6 w-full max-w-2xl border border-gray-300/20">
           <FaSearch className="text-gray-300 mx-4" />
@@ -53,50 +51,49 @@ const Dashboard = () => {
             placeholder="Search by name or skill..."
             className="bg-transparent w-full outline-none text-white px-4 placeholder-gray-300"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)} // Update search term
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-          {filteredFreelancers.length > 0 ? (
-            filteredFreelancers.map((freelancer, index) => (
-              <motion.div
-                key={index}
-                className="freelancer-card bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl border border-gray-300/10"
-                whileHover={{ scale: 1.05 }}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-              >
-                <h2 className="text-3xl font-semibold mb-2 text-white">{freelancer.name}</h2>
-                <p className="text-gray-200 mb-1">{freelancer.email}</p>
-                <p className="text-gray-300 mb-1">
-                  {freelancer.city}, {freelancer.country}
-                </p>
-                <p className="text-blue-300 font-medium mb-1">{freelancer.specialistIn}</p>
-                <p className="text-green-300 font-semibold mb-2">{freelancer.hourlyRate}</p>
-                <a
-                  href={freelancer.portfolio}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 underline"
+        {loading ? (
+          <p className="text-center text-gray-300">Loading...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+            {filteredFreelancers.length > 0 ? (
+              filteredFreelancers.map((freelancer, index) => (
+                <div
+                  key={index}
+                  className="freelancer-card bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl border border-gray-300/10"
                 >
-                  View Portfolio
-                </a>
-              </motion.div>
-            ))
-          ) : (
-            <motion.p
-              className="text-center text-gray-300"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              No freelancers found.
-            </motion.p>
-          )}
-        </div>
-      </motion.div>
+                  <h2 className="text-3xl font-semibold mb-2 text-white">
+                    {freelancer.fullName}
+                  </h2>
+                  <p className="text-gray-200 mb-1">{freelancer.fullname}</p>
+                  <p className="text-gray-300 mb-1">
+                    {freelancer.city}, {freelancer.country}
+                  </p>
+                  <p className="text-blue-300 font-medium mb-1">
+                    {freelancer.specialistIn}
+                  </p>
+                  <p className="text-green-300 font-semibold mb-2">
+                    {freelancer.hourlyRate}
+                  </p>
+                  <a
+                    href={freelancer.portfolio}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 underline"
+                  >
+                    View Portfolio
+                  </a>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-300">No freelancers found.</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
