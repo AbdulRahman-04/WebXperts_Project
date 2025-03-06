@@ -15,7 +15,7 @@ const KEY = config.get("KEY");
 router.post("/usersignup", async (req, res) => {
   try {
     // input taking from user
-    let { username, email, password, phone, serviceLookingFor } = req.body;
+    let { username, email, password,  serviceLookingFor } = req.body;
 
     // duplicate check in db
     let userExists = await userModel.findOne({ email });
@@ -35,7 +35,6 @@ router.post("/usersignup", async (req, res) => {
       username,
       email,
       password: hashPass,
-      phone,
       serviceLookingFor,
       userVerifyToken: {
         email: emailToken,
@@ -61,12 +60,12 @@ router.post("/usersignup", async (req, res) => {
 
     // send link to mobile for verification
 
-    let smsData = {
-      body: `Dear User, please verify your phone here: ${URL}/api/public/phoneverify/${phoneToken},`,
-      to: phone,
-    };
+    // let smsData = {
+    //   body: `Dear User, please verify your phone here: ${URL}/api/public/phoneverify/${phoneToken},`,
+    //   to: phone,
+    // };
 
-    sendSMS(smsData);
+    // sendSMS(smsData);
 
     console.log(`${URL}/api/public/emailverify/${emailToken}`);
     return res
@@ -110,35 +109,35 @@ router.get("/emailverify/:token", async (req, res) => {
   }
 });
 
-router.get("/phoneverify/:token", async (req, res) => {
-  try {
-    // take token from url
-    let token = req.params.token;
+// router.get("/phoneverify/:token", async (req, res) => {
+//   try {
+//     // take token from url
+//     let token = req.params.token;
 
-    // check if token === userVerifytoken.phone
-    let user = await userModel.findOne({ "userVerifyToken.phone": token });
+//     // check if token === userVerifytoken.phone
+//     let user = await userModel.findOne({ "userVerifyToken.phone": token });
 
-    if (!user) {
-      res.status(200).json({ msg: `invalid token` });
-    }
+//     if (!user) {
+//       res.status(200).json({ msg: `invalid token` });
+//     }
 
-    // check if user hasn't clicked the link more than once
-    if (user.userVerified.phone === true) {
-      res.status(200).json({ msg: `phn no already verified✅` });
-    }
-    // change the userVerifiedphone to true and userVerifyToken.phone to false
-    user.userVerified.phone = true;
-    user.userVerifyToken.phone = true;
+//     // check if user hasn't clicked the link more than once
+//     if (user.userVerified.phone === true) {
+//       res.status(200).json({ msg: `phn no already verified✅` });
+//     }
+//     // change the userVerifiedphone to true and userVerifyToken.phone to false
+//     user.userVerified.phone = true;
+//     user.userVerifyToken.phone = true;
 
-    //  save the changes
-    await user.save();
+//     //  save the changes
+//     await user.save();
 
-    res.status(200).json({ msg: `phone number verified✅` });
-  } catch (error) {
-    console.log(error);
-    res.status(401).json({ msg: error });
-  }
-});
+//     res.status(200).json({ msg: `phone number verified✅` });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(401).json({ msg: error });
+//   }
+// });
 
 router.post("/usersignin", async (req, res) => {
   try {

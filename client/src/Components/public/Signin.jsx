@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import webXpertz from "../../assets/og_webxpertz.png";
-import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -26,19 +25,20 @@ const Signin = () => {
         alert("Invalid credentials❌");
         return;
       }
-  
+       
       console.log("Token received:", token);
       console.log("Email from API:", apiOutput.data.email);
   
+      // ✅ Fix Token Storage
+      localStorage.setItem("authToken", token);
       localStorage.setItem("user", JSON.stringify(apiOutput.data.email));
-      localStorage.setItem("token", token);
-      localStorage.setItem("id", JSON.stringify(apiOutput.data.id))
+      localStorage.setItem("id", JSON.stringify(apiOutput.data.id));
+
+      // ✅ Debugging LocalStorage
+      console.log("Token stored in localStorage:", localStorage.getItem("authToken"));
   
       alert("Logged in successfully ✅");
-  
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 500);
+      navigate("/dashboard");  // ✅ Direct navigation, no delay
     } catch (error) {
       console.log("Login error:", error.message, error.response?.data);
       alert("Login failed, please try again ❌");
@@ -46,6 +46,7 @@ const Signin = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="bg-gray-900 min-h-screen flex items-center justify-center px-4">
       <div className="bg-gray-800 border-2 border-gray-700 rounded-2xl p-8 w-full max-w-md flex flex-col items-center shadow-lg">
@@ -85,7 +86,7 @@ const Signin = () => {
           onClick={handleSignin}
           className="mt-6 w-full h-10 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition"
         >
-        {loading? "signin" : "signin"}
+          {loading ? "Signing in..." : "Sign in"}
         </button>
 
         <h5 className="text-white mt-4 text-center">
@@ -94,7 +95,10 @@ const Signin = () => {
             Sign up here!
           </a>
         </h5>
-        <h5 className="text-sm text-white pt-3 font-semibold">Are you a freelancer? join webXpertz today! <a href="/flsignup" className="underline text-blue-600">Register here</a></h5>
+        <h5 className="text-sm text-white pt-3 font-semibold">
+          Are you a freelancer? join webXpertz today!{" "}
+          <a href="/flsignup" className="underline text-blue-600">Register here</a>
+        </h5>
       </div>
     </div>
   );

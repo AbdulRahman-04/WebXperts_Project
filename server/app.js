@@ -50,7 +50,7 @@ app.use("/api/public", freelancerpublicRouter)
 app.use(limiter)
 
 // jwt auth middleware
-//  app.use(authMiddleware)
+ app.use(authMiddleware)
 
 // private api's
 app.use("/api/users", userRouter)
