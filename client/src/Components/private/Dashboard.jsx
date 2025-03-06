@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";  // Import useNavigate for routing
 
 const Dashboard = () => {
   const [data, setData] = useState([]); // State to store freelancers data
   const [search, setSearch] = useState(""); // State to handle search input
   const [loading, setLoading] = useState(true); // Loading state for API fetch
   const [filteredFreelancers, setFilteredFreelancers] = useState([]); // State to store filtered freelancers
+  const navigate = useNavigate(); // Initialize the navigate hook
 
   // Function to fetch all freelancers
   async function getAllFreelancers() {
@@ -25,7 +27,6 @@ const Dashboard = () => {
   // Filter freelancers whenever the search term changes
   useEffect(() => {
     const filtered = data.filter((freelancer) =>
-
       freelancer.fullname.toLowerCase().includes(search.toLowerCase())
     );
     console.log(filtered);
@@ -36,6 +37,12 @@ const Dashboard = () => {
   useEffect(() => {
     getAllFreelancers();
   }, []);
+
+  // Function to handle logout
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); // Clear the auth token from localStorage
+    navigate("/signin"); // Navigate to the signin page
+  };
 
   return (
     <div className="bg-gradient-to-r from-purple-700 to-blue-700 min-h-screen text-white flex flex-col items-center justify-center p-6">
@@ -65,21 +72,30 @@ const Dashboard = () => {
                   key={index}
                   className="freelancer-card bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl border border-gray-300/10"
                 >
-                  <h2 className="text-3xl font-semibold mb-2 text-white">
+                  <h1 className="text-3xl font-semibold mb-2 text-white">
                     {freelancer.fullName}
-                  </h2>
-                  <p className="text-gray-200 mb-1">{freelancer.fullname}</p>
-                  <p className="text-gray-300 mb-1">
-                    {freelancer.city}, {freelancer.country}
-                  </p>
+                  </h1>
+
+                  <h1 className="text-gray-200 mb-1 text-3xl font-semibold">
+                    {freelancer.fullname}
+                  </h1>
+                  {/* Email Link */}
+                  <a
+                    href={`mailto:${freelancer.email}`}
+                    className="text-blue-400 underline"
+                  >
+                    {freelancer.email}
+                  </a>
+
+                  <p className="text-gray-300 mb-1">{freelancer.experience}</p>
                   <p className="text-blue-300 font-medium mb-1">
-                    {freelancer.specialistIn}
+                    {freelancer.expertiseIn}
                   </p>
                   <p className="text-green-300 font-semibold mb-2">
                     {freelancer.hourlyRate}
                   </p>
                   <a
-                    href={freelancer.portfolio}
+                    href={freelancer.portfolioURL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 underline"
@@ -94,6 +110,15 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout} // Attach logout functionality
+        type="button"
+        className="border-2 p-2 mt-3 rounded-2xl bg-blue-500 text-black hover:bg-blue-600"
+      >
+        Log out
+      </button>
     </div>
   );
 };
